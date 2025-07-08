@@ -1,5 +1,5 @@
 {
-	"name": "ionutgrecu/assets",
+	"name": "ionutgrecu/laravel-assets",
 	"description": "An ultra-simple-to-use assets management library",
 	"keywords": ["assets", "asset", "css", "js", "javascript", "pipeline", "minify", "laravel", "agnostic"],
 	"license": "MIT",
