@@ -1,8 +1,8 @@
-<?php namespace Stolz\Assets\Laravel;
+<?php namespace Ionutgrecu\Assets\Laravel;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Stolz\Assets\Manager as Assets;
+use Ionutgrecu\Assets\Manager as Assets;
 
 class LegacyServiceProvider extends LaravelServiceProvider
 {
@@ -21,13 +21,13 @@ class LegacyServiceProvider extends LaravelServiceProvider
 		$config = $this->app->config->get('assets::config', []);
 
 		// Apply config settings
-		$this->app['stolz.assets.group.default']->config($config);
+		$this->app['ionutgrecu.assets.group.default']->config($config);
 
 		// Add 'Assets' facade alias
-		AliasLoader::getInstance()->alias('Assets', 'Stolz\Assets\Laravel\Facade');
+		AliasLoader::getInstance()->alias('Assets', Facade::class);
 
 		// Add artisan command
-		$this->commands('stolz.assets.command.flush');
+		$this->commands('ionutgrecu.assets.command.flush');
 	}
 
 	/**
@@ -37,13 +37,13 @@ class LegacyServiceProvider extends LaravelServiceProvider
 	 */
 	public function register()
 	{
-		// Bind 'stolz.assets.group.default' shared component to the IoC container
-		$this->app->singleton('stolz.assets.group.default', function ($app) {
+		// Bind 'ionutgrecu.assets.group.default' shared component to the IoC container
+		$this->app->singleton('ionutgrecu.assets.group.default', function ($app) {
 			return new Assets();
 		});
 
-		// Bind 'stolz.assets.command.flush' component to the IoC container
-		$this->app->bind('stolz.assets.command.flush', function ($app) {
+		// Bind 'ionutgrecu.assets.command.flush' component to the IoC container
+		$this->app->bind('ionutgrecu.assets.command.flush', function ($app) {
 			return new LegacyFlushPipelineCommand();
 		});
 	}

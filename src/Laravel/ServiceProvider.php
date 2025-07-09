@@ -1,8 +1,8 @@
-<?php namespace Stolz\Assets\Laravel;
+<?php namespace Ionutgrecu\Assets\Laravel;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Stolz\Assets\Manager as Assets;
+use Ionutgrecu\Assets\Manager as Assets;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -19,10 +19,10 @@ class ServiceProvider extends LaravelServiceProvider
 		]);
 
 		// Add 'Assets' facade alias
-		AliasLoader::getInstance()->alias('Assets', 'Stolz\Assets\Laravel\Facade');
+		AliasLoader::getInstance()->alias('Assets', 'Ionutgrecu\Assets\Laravel\Facade');
 
 		// Register the Artisan command
-		$this->commands('stolz.assets.command.flush');
+		$this->commands('ionutgrecu.assets.command.flush');
 	}
 
 	/**
@@ -33,7 +33,7 @@ class ServiceProvider extends LaravelServiceProvider
 	public function register()
 	{
 		// Register the Artisan command binding
-		$this->app->bind('stolz.assets.command.flush', function ($app) {
+		$this->app->bind('ionutgrecu.assets.command.flush', function ($app) {
 			return new FlushPipelineCommand();
 		});
 
@@ -62,7 +62,7 @@ class ServiceProvider extends LaravelServiceProvider
 	 */
 	protected function registerAssetsManagerInstance($name, array $config)
 	{
-		$this->app->singleton("stolz.assets.group.$name", function ($app) use ($config) {
+		$this->app->singleton("ionutgrecu.assets.group.$name", function ($app) use ($config) {
 
 			if( ! isset($config['public_dir']))
 				$config['public_dir'] = public_path();

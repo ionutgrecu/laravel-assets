@@ -1,4 +1,4 @@
-<?php namespace Stolz\Assets\Laravel;
+<?php namespace Ionutgrecu\Assets\Laravel;
 
 use Illuminate\Support\Facades\Facade as LaravelFacade;
 
@@ -11,7 +11,7 @@ class Facade extends LaravelFacade
 	 */
 	protected static function getFacadeAccessor()
 	{
-		return 'stolz.assets.group.default';
+		return 'ionutgrecu.assets.group.default';
 	}
 
 	/**
@@ -19,16 +19,16 @@ class Facade extends LaravelFacade
 	 *
 	 * @param  string $group
 	 *
-	 * @return \Stolz\Assets\Manager
+	 * @return \Ionutgrecu\Assets\Manager
 	 *
 	 * @throws \RuntimeException
 	 */
 	public static function group($group = 'default')
 	{
-		$binding = "stolz.assets.group.$group";
+		$binding = "ionutgrecu.assets.group.$group";
 
 		if( ! static::$app->bound($binding))
-			throw new \RuntimeException("Stolz\Assets: Assets group '$group' not found in the config file");
+			throw new \RuntimeException("Ionutgrecu\Assets: Assets group '$group' not found in the config file");
 
 		return static::$app[$binding];
 	}

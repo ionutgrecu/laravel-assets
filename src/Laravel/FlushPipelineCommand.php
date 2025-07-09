@@ -1,4 +1,4 @@
-<?php namespace Stolz\Assets\Laravel;
+<?php namespace Ionutgrecu\Assets\Laravel;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository as Config;
