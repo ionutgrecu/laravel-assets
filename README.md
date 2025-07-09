@@ -1,7 +1,7 @@
 Assets
 ======
 
-An ultra-simple-to-use assets management PHP library.
+An ultra-simple-to-use assets management PHP library. In addition to the initial package of Stolz\Assets package, this package add a hash to every css and js file if pipeline is disabled and convert relative assets in css to absolute assets. Ex.: ../webfonts/fa-brands-400.svg to /node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.svg
 
 [![Build Status](https://travis-ci.org/Stolz/Assets.png?branch=master)](https://travis-ci.org/Stolz/Assets) [![Join the chat at https://gitter.im/Stolz/Assets](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Stolz/Assets?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -49,7 +49,7 @@ The library is framework agnostic and it should work well with any framework or 
 
 In your project base directory run
 
-	composer require stolz/assets
+	composer require ionutgrecu/laravel-assets
 
 If you are using Laravel version 5.5 or later there is nothing else you need to do. The service provider will be automatically loaded for you.
 
@@ -57,7 +57,7 @@ If you are using an older version of Laravel or you disabled the package discove
 
 	'providers' => [
 		//...
-		'Stolz\Assets\Laravel\ServiceProvider',
+		'Ionutgrecu\Assets\Laravel\ServiceProvider',
 		//...
 	],
 
@@ -300,7 +300,7 @@ You can use the library without using static methods. The signature of all metho
 	];
 
 	// Instantiate the library
-	$assets = new \Stolz\Assets\Manager($config);
+	$assets = new \Ionutgrecu\Assets\Manager($config);
 
 	// Add some assets
 	$assets->add('style.css')->add('script.js');

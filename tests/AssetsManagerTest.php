@@ -9,7 +9,7 @@ class AssetsManagerTest extends TestCase
 
 	protected function setUp(): void
 	{
-		$this->manager = new Stolz\Assets\Manager();
+		$this->manager = new Ionutgrecu\Assets\Manager();
 	}
 
 	public function testConfigSetsDirs()
@@ -277,7 +277,7 @@ class AssetsManagerTest extends TestCase
 
 	protected static function getMethod($name)
 	{
-		$class = new ReflectionClass('Stolz\Assets\Manager');
+		$class = new ReflectionClass('Ionutgrecu\Assets\Manager');
 		$method = $class->getMethod($name);
 		$method->setAccessible(true);
 		return $method;

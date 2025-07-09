@@ -32,7 +32,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Stolz\\Assets\\": "src/"
+			"Ionutgrecu\\Assets\\": "src/"
 		}
 	},
 	"config": {
@@ -43,7 +43,7 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Stolz\\Assets\\Laravel\\ServiceProvider"
+				"Ionutgrecu\\Assets\\Laravel\\ServiceProvider"
 			]
 		}
 	}
