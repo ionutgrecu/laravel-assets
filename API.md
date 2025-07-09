@@ -7,7 +7,7 @@ Assets
 
 
 * Class name: Manager
-* Namespace: Stolz\Assets
+* Namespace: Ionutgrecu\Assets
 
 
 

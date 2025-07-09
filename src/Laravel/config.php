@@ -10,8 +10,8 @@
 */
 
 return [
-
-	// Configuration for the default group. Feel free to add more groups.
+    'asset_version' => env('ASSET_VERSION', date('Ymd')),
+    // Configuration for the default group. Feel free to add more groups.
 	// Each group can have different settings.
 	'default' => [
 
