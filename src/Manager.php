@@ -2,6 +2,7 @@
 
 namespace Ionutgrecu\Assets;
 
+use Arr;
 use Closure;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
@@ -170,6 +171,11 @@ class Manager {
     protected array $css = [];
 
     /**
+     * An array of id's for <link> tag
+     */
+    protected array $cssId = [];
+
+    /**
      * JavaScript files already added.
      * Not accepted as an option of config() method.
      */
@@ -297,10 +303,16 @@ class Manager {
      * @param mixed $asset
      * @return Manager
      */
-    public function addCss($asset) {
+    public function addCss($asset, ?string $id = null): self {
         if (is_array($asset)) {
-            foreach ($asset as $a)
-                $this->addCss($a);
+            if (Arr::isList($asset)) {
+                foreach ($asset as $a)
+                    $this->addCss($a);
+            } else {
+                foreach ($asset as $id => $a) {
+                    $this->addCss($a, $id);
+                }
+            }
 
             return $this;
         }
@@ -310,6 +322,9 @@ class Manager {
 
         if (!in_array($asset, $this->css))
             $this->css[] = $asset;
+
+        if ($id)
+            $this->cssId[$asset] = $id;
 
         return $this;
     }
@@ -426,7 +441,12 @@ class Manager {
             if (false !== strpos($asset, '?'))
                 return $asset;
 
-            return $asset . '?v=' . $assetVersion;
+            $assetWithVersion = $asset . '?v=' . $assetVersion;
+
+            if (!empty($this->cssId[$asset]))
+                $this->cssId[$assetWithVersion] = $this->cssId[$asset];
+
+            return $assetWithVersion;
         }, $this->css);
 
         if ($attributes instanceof Closure)
@@ -447,7 +467,12 @@ class Manager {
         // Build tags
         $output = '';
         foreach ($assets as $asset) {
-            $output .= '<link blocking="render" href="' . $asset . '"' . $attributes . " />\n";
+            $attributesStr = $attributes;
+
+            if (!empty($this->cssId[$asset]))
+                $attributesStr .= ' id="' . $this->cssId[$asset] . '"';
+
+            $output .= '<link blocking="render" href="' . $asset . '"' . $attributesStr . " />\n";
 //            $output .= '<link rel="preload" href="' . $asset . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">
 //<noscript><link rel="stylesheet" href="' . $asset . '"></noscript>' . "\n";
         }
