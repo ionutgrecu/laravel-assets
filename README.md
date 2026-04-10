@@ -1,7 +1,7 @@
 Assets
 ======
 
-An ultra-simple-to-use assets management PHP library. In addition to the initial package of Stolz\Assets package, this package add a hash to every css and js file if pipeline is disabled and convert relative assets in css to absolute assets. Ex.: ../webfonts/fa-brands-400.svg to /node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.svg
+An ultra-simple-to-use assets management PHP library. Developed by [Ionut Grecu](https://github.com/ionutgrecu) based on the [Stolz/Assets](https://github.com/Stolz/Assets) package. This version adds a hash to every CSS and JS file if pipeline is disabled, and converts relative assets in CSS to absolute assets (e.g., `../webfonts/fa-brands-400.svg` to `/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.svg`). It also adds the possibility to assign an ID to CSS assets for dynamic manipulation via JavaScript.
 
 [![Build Status](https://travis-ci.org/Stolz/Assets.png?branch=master)](https://travis-ci.org/Stolz/Assets) [![Join the chat at https://gitter.im/Stolz/Assets](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Stolz/Assets?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -105,6 +105,20 @@ If your assets have no extension and autodetection fails, then just use canonica
 
 	Assets::addCss('CSSfile.foo');
 	Assets::addJs('JavaScriptFile.bar');
+
+### CSS with ID
+
+You can add an ID to a CSS asset to allow dynamic changes to its `href` via JavaScript:
+
+	Assets::addCss('style.css', 'main-style');
+
+Alternatively, you can pass an associative array where the key is the ID and the value is the asset path:
+
+	Assets::addCss(['main-style' => 'style.css']);
+
+This will generate:
+
+	<link id="main-style" type="text/css" rel="stylesheet" href="css/style.css?v=..." />
 
 If at some point you decide you added the wrong assets you can reset them and start over
 
@@ -226,6 +240,10 @@ For a **full list of all the available config options** please read the provided
 - `'autoload' => [],`
 
 	Here you may set which assets (CSS files, JavaScript files or collections) should be loaded by default.
+
+- `'asset_version' => '...',`
+
+	The version hash (e.g., `v=...`) that will be appended to CSS and JS files for cache busting. Defaults to today's date if not specified.
 - `'css_dir' => 'css',`
 - `'js_dir' => 'js',`
 
@@ -351,6 +369,7 @@ You can use the library without using static methods. The signature of all metho
 
 MIT License
 © [Stolz](https://github.com/Stolz)
+© [Ionut Grecu](https://github.com/ionutgrecu)
 
 Read the provided `LICENSE` file for details.
 
