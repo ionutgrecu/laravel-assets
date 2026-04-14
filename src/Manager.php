@@ -182,6 +182,11 @@ class Manager {
     protected array $js = [];
 
     /**
+     * An array of id's for <script> tag
+     */
+    protected array $jsId = [];
+
+    /**
      * Preloaded assets array
      */
     protected array $preload = [];
@@ -364,10 +369,16 @@ class Manager {
      * @param mixed $asset
      * @return Manager
      */
-    public function addJs($asset) {
+    public function addJs($asset, ?string $id = null): self {
         if (is_array($asset)) {
-            foreach ($asset as $a)
-                $this->addJs($a);
+            if (Arr::isList($asset)) {
+                foreach ($asset as $a)
+                    $this->addJs($a);
+            } else {
+                foreach ($asset as $id => $a) {
+                    $this->addJs($a, $id);
+                }
+            }
 
             return $this;
         }
@@ -377,6 +388,9 @@ class Manager {
 
         if (!in_array($asset, $this->js))
             $this->js[] = $asset;
+
+        if ($id)
+            $this->jsId[$asset] = $id;
 
         return $this;
     }
@@ -391,6 +405,7 @@ class Manager {
      * @return Manager
      */
     public function prependJs($asset) {
+
         if (is_array($asset)) {
             foreach (array_reverse($asset) as $a)
                 $this->prependJs($a);
@@ -500,7 +515,12 @@ class Manager {
             if (false !== strpos($asset, '?'))
                 return $asset;
 
-            return $asset . '?v=' . $assetVersion;
+            $assetWithVersion = $asset . '?v=' . $assetVersion;
+
+            if (!empty($this->jsId[$asset]))
+                $this->jsId[$assetWithVersion] = $this->jsId[$asset];
+
+            return $assetWithVersion;
         }, $this->js);
 
         if ($attributes instanceof Closure)
@@ -517,8 +537,14 @@ class Manager {
 
         // Build tags
         $output = '';
-        foreach ($assets as $asset)
-            $output .= '<script defer src="' . $asset . '"' . $attributes . "></script>\n";
+        foreach ($assets as $asset) {
+            $attributesStr = $attributes;
+
+            if (!empty($this->jsId[$asset]))
+                $attributesStr .= ' id="' . $this->jsId[$asset] . '"';
+
+            $output .= '<script defer src="' . $asset . '"' . $attributesStr . "></script>\n";
+        }
 
         return $output;
     }
@@ -750,8 +776,12 @@ class Manager {
     protected function buildLocalLink($asset, $dir) {
         $package = $this->assetIsFromPackage($asset);
 
-        if ($package === false)
+        if ($package === false) {
+            // If path is already absolute (starts with /), return as-is
+            if (str_starts_with($asset, '/'))
+                return $asset;
             return $dir . '/' . $asset;
+        }
 
         return $this->packages_dir . '/' . $package[0] . '/' . $package[1] . '/' . ltrim($dir, '/') . '/' . $package[2];
     }

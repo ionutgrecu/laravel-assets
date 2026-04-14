@@ -1,7 +1,7 @@
 Assets
 ======
 
-An ultra-simple-to-use assets management PHP library. Developed by [Ionut Grecu](https://github.com/ionutgrecu) based on the [Stolz/Assets](https://github.com/Stolz/Assets) package. This version adds a hash to every CSS and JS file if pipeline is disabled, and converts relative assets in CSS to absolute assets (e.g., `../webfonts/fa-brands-400.svg` to `/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.svg`). It also adds the possibility to assign an ID to CSS assets for dynamic manipulation via JavaScript.
+An ultra-simple-to-use assets management PHP library. Developed by [Ionut Grecu](https://github.com/ionutgrecu) based on the [Stolz/Assets](https://github.com/Stolz/Assets) package. This version adds a hash to every CSS and JS file if pipeline is disabled, and converts relative assets in CSS to absolute assets (e.g., `../webfonts/fa-brands-400.svg` to `/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.svg`). It also adds the possibility to assign an ID to CSS and JS assets for dynamic manipulation via JavaScript.
 
 [![Build Status](https://travis-ci.org/Stolz/Assets.png?branch=master)](https://travis-ci.org/Stolz/Assets) [![Join the chat at https://gitter.im/Stolz/Assets](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Stolz/Assets?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -119,6 +119,20 @@ Alternatively, you can pass an associative array where the key is the ID and the
 This will generate:
 
 	<link id="main-style" type="text/css" rel="stylesheet" href="css/style.css?v=..." />
+
+### JS with ID
+
+Similarly, you can add an ID to a JS asset:
+
+	Assets::addJs('app.js', 'main-script');
+
+Or using an associative array:
+
+	Assets::addJs(['main-script' => 'app.js']);
+
+This will generate:
+
+	<script defer src="js/app.js?v=..." type="text/javascript" id="main-script"></script>
 
 If at some point you decide you added the wrong assets you can reset them and start over
 
